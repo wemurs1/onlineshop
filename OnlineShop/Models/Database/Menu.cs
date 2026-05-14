@@ -1,0 +1,12 @@
+﻿namespace OnlineShop.Models.Database;
+
+public partial class Menu
+{
+    public int Id { get; set; }
+
+    public string? MenuTitle { get; set; }
+
+    public string? LInk { get; set; }
+
+    public string? Type { get; set; }
+}

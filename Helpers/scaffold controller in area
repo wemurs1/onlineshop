@@ -1,0 +1,7 @@
+dotnet aspnet-codegenerator controller \
+    -name MenusController \
+    -m Menu \
+    -dc OnlineShopContext \
+    --relativeFolderPath Areas/Admin/Controllers \
+    --useDefaultLayout \
+    --referenceScriptLibraries
