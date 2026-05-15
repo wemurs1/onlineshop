@@ -6,7 +6,7 @@ public partial class Menu
 
     public string? MenuTitle { get; set; }
 
-    public string? LInk { get; set; }
+    public string? Link { get; set; }
 
     public string? Type { get; set; }
 }

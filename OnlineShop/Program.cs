@@ -1,10 +1,14 @@
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Models.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<OnlineShopContext>();
+builder.Services.AddDbContext<OnlineShopContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 
 var app = builder.Build();
 
@@ -23,9 +27,8 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapAreaControllerRoute(
+app.MapControllerRoute(
     name: "Admin",
-    areaName: "Admin",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
 );
 

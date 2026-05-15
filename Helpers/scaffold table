@@ -1,2 +1,2 @@
 dotnet ef dbcontext scaffold "Server=localhost,1433;Database=OnlineShop;TrustServerCertificate=True;User
- Id=sa;Password=Pa55w0rd" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models/Database --table Menus
+ Id=sa;Password=Pa55w0rd" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models/Database --table Banners

@@ -1,4 +1,5 @@
-﻿@inject OnlineShop.Models.Database.OnlineShopContext _context;
+﻿@using Microsoft.EntityFrameworkCore
+@inject OnlineShop.Models.Database.OnlineShopContext _context;
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -12,18 +13,18 @@
 
     <!-- CSS
     ========================= -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/slick.css">
-    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
-    <link rel="stylesheet" href="assets/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/css/font.awesome.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/nice-select.css">
-    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <Link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <Link rel="stylesheet" href="assets/css/slick.css">
+    <Link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <Link rel="stylesheet" href="assets/css/ionicons.min.css">
+    <Link rel="stylesheet" href="assets/css/font.awesome.css">
+    <Link rel="stylesheet" href="assets/css/animate.css">
+    <Link rel="stylesheet" href="assets/css/nice-select.css">
+    <Link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+    <Link rel="stylesheet" href="assets/css/magnific-popup.css">
 
     <!-- Main Style CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <Link rel="stylesheet" href="assets/css/style.css">
 
     <!--modernizr min js here-->
     <script src="assets/js/vendor/modernizr-3.7.1.min.js"></script>
@@ -83,11 +84,11 @@
                                 <div id="menu" class="text-left ">
                                     <ul class="offcanvas_main_menu">
                                         @{
-                                            var topMenus = _context.Menus.Where(row => row.Type == "Top").ToList();
+                                            var topMenus = await _context.Menus.Where(row => row.Type == "Top").ToListAsync();
                                         }
                                         @foreach (var menuItem in topMenus)
                                         {
-                                            <li><a href="@menuItem.LInk">@menuItem.MenuTitle</a></li>
+                                            <li><a href="@menuItem.Link">@menuItem.MenuTitle</a></li>
                                         }
                                     </ul>
                                 </div>
@@ -227,31 +228,18 @@
                                                 <div class="main_menu d-none d-lg-block">
                                                     <nav>
                                                         <ul class="d-flex">
-                                                            <li><a class="active" href="index.html">demo</a> </li>
-                                                            <li><a href="shop.html">shop</a></li>
-                                                            <li><a href="product-details.html">product</a></li>
-                                                            <li><a href="#">sale</a></li>
-                                                            <li><a href="#">pages</a>
-                                                                <ul class="sub_menu">
-                                                                    <li><a href="cart.html">Cart Pages</a></li>
-                                                                    <li><a href="checkout.html">Checkout Pages</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a href="blog.html">blog</a>
-                                                                <ul class="sub_menu">
-                                                                    <li><a href="blog.html">Blog Pages</a></li>
-                                                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a href="#">buy</a></li>
+                                                            @foreach (var menuItem in topMenus)
+                                                            {
+                                                                <li><a href="@menuItem.Link">@menuItem.MenuTitle</a></li>
+                                                            }
                                                         </ul>
                                                     </nav>
                                                 </div>
                                                 <div class="header_account">
                                                     <ul class="d-flex">
                                                         <li class="header_search"><a href="#"><i class="icon-magnifier icons"></i></a></li>
-                                                        <li class="account_link"><a href="#"><i class="icon-user icons"></i></a>
-                                                            <ul class="dropdown_account_link">
+                                                        <li class="account_Link"><a href="#"><i class="icon-user icons"></i></a>
+                                                            <ul class="dropdown_account_Link">
                                                                 <li><a href="#">My Account</a></li>
                                                                 <li><a href="#">Login</a></li>
                                                                 <li><a href="#">Contact</a></li>
@@ -308,11 +296,13 @@
                                             <div class="footer_widget_list text-right">
                                                 <div class="footer_menu">
                                                     <ul class="d-flex justify-content-end">
-                                                        <li><a href="index.html">home</a></li>
-                                                        <li><a href="shop.html">Shop</a></li>
-                                                        <li><a href="product-details.html">Product</a></li>
-                                                        <li><a href="#">pages</a></li>
-                                                        <li><a href="blog.html">Blog</a></li>
+                                                        @{
+                                                            var bottomMenus = await _context.Menus.Where(row => row.Type == "Bottom").ToListAsync();
+                                                        }
+                                                        @foreach (var menuItem in bottomMenus)
+                                                        {
+                                                            <li><a href="@menuItem.Link">@menuItem.MenuTitle</a></li>
+                                                        }
                                                     </ul>
                                                 </div>
                                                 <div class="footer_social">

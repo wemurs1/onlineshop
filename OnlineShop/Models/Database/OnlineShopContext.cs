@@ -2,39 +2,30 @@
 
 namespace OnlineShop.Models.Database;
 
-public partial class OnlineShopContext : DbContext
+public partial class OnlineShopContext(DbContextOptions options) : DbContext(options)
 {
-    public OnlineShopContext()
-    {
-    }
-
-    public OnlineShopContext(DbContextOptions<OnlineShopContext> options)
-        : base(options)
-    {
-    }
-
+    public virtual DbSet<Banner> Banners { get; set; }
     public virtual DbSet<Menu> Menus { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost,1433;Database=OnlineShop;TrustServerCertificate=True;User Id=sa;Password=Pa55w0rd");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Menu>(entity =>
+       {
+           entity.Property(e => e.Link).HasMaxLength(300);
+           entity.Property(e => e.MenuTitle).HasMaxLength(50);
+           entity.Property(e => e.Type).HasMaxLength(20);
+       });
+        modelBuilder.Entity<Banner>(entity =>
         {
-            entity.Property(e => e.LInk)
-                .HasMaxLength(300)
-                .IsUnicode(false)
-                .HasColumnName("lINK");
-            entity.Property(e => e.MenuTitle).HasMaxLength(50);
-            entity.Property(e => e.Type)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.HasKey(e => e.Id).HasName("PK_Banner");
+
+            entity.Property(e => e.ImageName).HasMaxLength(50);
+            entity.Property(e => e.Link).HasMaxLength(100);
+            entity.Property(e => e.Position).HasMaxLength(50);
+            entity.Property(e => e.SubTitle).HasMaxLength(1000);
+            entity.Property(e => e.Title).HasMaxLength(200);
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
