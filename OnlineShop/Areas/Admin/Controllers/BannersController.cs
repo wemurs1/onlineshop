@@ -163,7 +163,8 @@ namespace OnlineShop.Areas.Admin.Controllers
             var banner = await _context.Banners.FindAsync(id);
             if (banner != null)
             {
-                if (!string.IsNullOrEmpty(banner.ImageName)) // delete image file if it exists
+                if (!string.IsNullOrEmpty(banner.ImageName)) // delete image
+                //  file if it exists
                 {
                     string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "banners", banner.ImageName);
                     if (System.IO.File.Exists(fileName)) System.IO.File.Delete(fileName);
