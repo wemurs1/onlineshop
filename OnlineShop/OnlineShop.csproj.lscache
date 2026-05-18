@@ -56,11 +56,17 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 
 [sourceFiles]
 Areas/Admin/Controllers/
+ BannersController.cs
  HomeController.cs
  MenusController.cs
 Controllers/HomeController.cs
 Models/Database/
+ Banner.cs
  Menu.cs
+ Migrations/
+  20260515120000_Starter.cs
+  20260515120000_Starter.Designer.cs
+  OnlineShopContextModelSnapshot.cs
  OnlineShopContext.cs
 Models/ErrorViewModel.cs
 obj/Debug/net10.0/
@@ -491,6 +497,12 @@ Program.cs
 obj/Debug/net10.0/OnlineShop.GeneratedMSBuildEditorConfig.editorconfig
 
 [additionalFiles]
+Areas/Admin/Views/Banners/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
 Areas/Admin/Views/
  Home/Index.cshtml
  Menus/
@@ -514,6 +526,12 @@ Views/
  _ViewStart.cshtml
 
 [dynamicFiles]
+Areas/Admin/Views/Banners/
+ Create.cshtml
+ Delete.cshtml
+ Details.cshtml
+ Edit.cshtml
+ Index.cshtml
 Areas/Admin/Views/
  Home/Index.cshtml
  Menus/

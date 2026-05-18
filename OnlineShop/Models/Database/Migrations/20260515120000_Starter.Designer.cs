@@ -8,11 +8,11 @@ using OnlineShop.Models.Database;
 
 #nullable disable
 
-namespace OnlineShop.Migrations
+namespace OnlineShop.Models.Database.Migrations
 {
     [DbContext(typeof(OnlineShopContext))]
-    [Migration("20260515112854_starter")]
-    partial class starter
+    [Migration("20260515120000_Starter")]
+    partial class Starter
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,8 +55,7 @@ namespace OnlineShop.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("Id")
-                        .HasName("PK_Banner");
+                    b.HasKey("Id");
 
                     b.ToTable("Banners");
                 });

@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Models.Database;
 
-public partial class Menu
+public class Menu
 {
     public int Id { get; set; }
 

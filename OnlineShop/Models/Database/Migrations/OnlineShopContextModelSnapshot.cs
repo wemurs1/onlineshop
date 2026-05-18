@@ -7,7 +7,7 @@ using OnlineShop.Models.Database;
 
 #nullable disable
 
-namespace OnlineShop.Migrations
+namespace OnlineShop.Models.Database.Migrations
 {
     [DbContext(typeof(OnlineShopContext))]
     partial class OnlineShopContextModelSnapshot : ModelSnapshot
@@ -52,8 +52,7 @@ namespace OnlineShop.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("Id")
-                        .HasName("PK_Banner");
+                    b.HasKey("Id");
 
                     b.ToTable("Banners");
                 });

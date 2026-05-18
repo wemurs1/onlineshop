@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace OnlineShop.Migrations
+namespace OnlineShop.Models.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class starter : Migration
+    public partial class Starter : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,7 +25,7 @@ namespace OnlineShop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Banner", x => x.Id);
+                    table.PrimaryKey("PK_Banners", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

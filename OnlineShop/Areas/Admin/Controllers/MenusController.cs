@@ -49,7 +49,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MenuTitle,LInk,Type")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,MenuTitle,Link,Type")] Menu menu)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MenuTitle,LInk,Type")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MenuTitle,Link,Type")] Menu menu)
         {
             if (id != menu.Id)
             {

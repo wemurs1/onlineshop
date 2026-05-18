@@ -2,10 +2,10 @@
 
 namespace OnlineShop.Models.Database;
 
-public partial class OnlineShopContext(DbContextOptions options) : DbContext(options)
+public class OnlineShopContext(DbContextOptions options) : DbContext(options)
 {
-    public virtual DbSet<Banner> Banners { get; set; }
-    public virtual DbSet<Menu> Menus { get; set; }
+    public DbSet<Banner> Banners { get; set; }
+    public DbSet<Menu> Menus { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,8 +17,6 @@ public partial class OnlineShopContext(DbContextOptions options) : DbContext(opt
        });
         modelBuilder.Entity<Banner>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Banner");
-
             entity.Property(e => e.ImageName).HasMaxLength(50);
             entity.Property(e => e.Link).HasMaxLength(100);
             entity.Property(e => e.Position).HasMaxLength(50);

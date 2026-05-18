@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Models.Database;
 
-public partial class Banner
+public class Banner
 {
     public int Id { get; set; }
 
