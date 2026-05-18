@@ -481,3 +481,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 OnlineShop/appsettings.json
+OnlineShop/wwwroot/images/banners/*
