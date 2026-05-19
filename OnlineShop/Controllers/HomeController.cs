@@ -1,13 +1,20 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Models;
+using OnlineShop.Models.Database;
 
 namespace OnlineShop.Controllers;
 
-public class HomeController : Controller
+public class HomeController(OnlineShopContext context, ILogger<HomeController> logger) : Controller
 {
-    public IActionResult Index()
+    private readonly ILogger<HomeController> _logger = logger;
+    private readonly OnlineShopContext _context = context;
+
+    public async Task<IActionResult> Index()
     {
+        var banners = await _context.Banners.ToListAsync();
+        ViewData["banners"] = banners;
         return View();
     }
 
