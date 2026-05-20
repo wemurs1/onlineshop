@@ -1,6 +1,7 @@
-﻿@{
+﻿@model IEnumerable<OnlineShop.Models.Database.Banner>
+@{
  ViewData["Title"] = "Home Page";
- var banners = ViewData["banners"] as List<Banner>;
+ @* var banners = ViewData["banners"] as List<Banner>; *@
 }
 
 <!--slider area start-->
@@ -14,9 +15,9 @@
  "speed": 300,
  "infinite": true
  }'>
- @if (banners!=null)
+ @if (Model!=null)
  {
- var sliders = banners.Where(x=>x.Position=="Slider").OrderBy(x=>x.Priority).ToList();
+ var sliders = Model.Where(x=>x.Position=="Slider").OrderBy(x=>x.Priority).ToList();
  foreach (var slider in sliders)
  {
  <div class="single_slider d-flex align-items-center" data-bgimg="/images/banners/@slider.ImageName">
@@ -95,9 +96,9 @@
  <h2>featured collections</h2>
  </div>
  <div class="banner_container d-flex">
- @if(banners!=null)
+ @if(Model!=null)
  {
- var bannerList = banners.Where(x=>x.Position=="Banner1").OrderBy(x=>x.Priority).ToList();
+ var bannerList = Model.Where(x=>x.Position=="Banner1").OrderBy(x=>x.Priority).ToList();
  foreach (var banner in bannerList)
  {
  <figure class="single_banner position-relative mr-30">
@@ -1801,9 +1802,9 @@
  <section class="banner_section banner_style2 mb-109">
  <div class="container-fluid">
  <div class="row">
- @if(banners!=null)
+ @if(Model!=null)
  {
- var bannerList = banners.Where(x=>x.Position=="Banner2").OrderBy(x=>x.Priority).ToList();
+ var bannerList = Model.Where(x=>x.Position=="Banner2").OrderBy(x=>x.Priority).ToList();
  foreach (var banner in bannerList)
  {
     <div class="col-lg-6 col-md-6 col-sm-6">

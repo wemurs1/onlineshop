@@ -14,8 +14,8 @@ public class HomeController(OnlineShopContext context, ILogger<HomeController> l
     public async Task<IActionResult> Index()
     {
         var banners = await _context.Banners.ToListAsync();
-        ViewData["banners"] = banners;
-        return View();
+        // ViewData["banners"] = banners;
+        return View(banners);
     }
 
     public IActionResult Privacy()
