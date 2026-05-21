@@ -177,8 +177,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(g => g.Gallery).FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -192,13 +191,30 @@ namespace OnlineShop.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(g => g.Gallery).FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
+                string rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "banners");
+                if (!string.IsNullOrEmpty(product.ImageName))
+                {
+                    var mainImage = Path.Combine(rootPath, product.ImageName);
+                    if (System.IO.File.Exists(mainImage)) System.IO.File.Delete(mainImage);
+                }
+                if (product.Gallery != null && product.Gallery.Count != 0)
+                {
+                    foreach (var galleryImage in product.Gallery)
+                    {
+                        if (!string.IsNullOrEmpty(galleryImage.ImageName))
+                        {
+                            var image = Path.Combine(rootPath, galleryImage.ImageName);
+                            if (System.IO.File.Exists(image)) System.IO.File.Delete(image);
+                        }
+                    }
+                }
                 _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
