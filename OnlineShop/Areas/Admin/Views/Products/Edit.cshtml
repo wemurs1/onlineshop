@@ -1,4 +1,4 @@
-@model OnlineShop.Models.Database.Product
+@model Product
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,10 +9,12 @@
 <h4>Product</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageName"/>
+            <input type="hidden" asp-for="Gallery"/>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -25,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FullDesc" class="control-label"></label>
-                <input asp-for="FullDesc" class="form-control" />
+                <textarea asp-for="FullDesc" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="FullDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,11 +43,26 @@
             <div class="form-group">
                 <label asp-for="ImageName" class="control-label"></label>
                 <input asp-for="ImageName" type="file" name="MainImage" class="form-control" />
+                <img class="img-thumbnail" src="/images/banners/@Model.ImageName" style="max-width: 200;" />
                 <span asp-validation-for="ImageName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Gallery</label>
                 <input type="file" name="GalleryImages" multiple class="form-control" />
+                <br />
+                <div class="row">
+                    @if (Model.Gallery != null)
+                    {
+                        foreach (var productGallery in Model.Gallery)
+                        {
+                            <div class="col-md-3 col-12" id="@productGallery.Id">
+                                <img src="/images/banners/@productGallery.ImageName" class="img-thumbnail" />
+                                <a class="btn btn-danger w-100"
+                                   href="/admin/products/DeleteGallery?id=@productGallery.Id">delete</a>
+                            </div>
+                        }
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Qty" class="control-label"></label>

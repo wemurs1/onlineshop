@@ -50,7 +50,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,Title,Description,FullDesc,Price,Discount,ImageName,Qty,Tags,VideoUrl")] Product product,
+            [Bind("Id,Title,Description,FullDesc,Price,Discount,ImageName,Gallery,Qty,Tags,VideoUrl")] Product product,
             IFormFile? MainImage,
             IFormFile[]? GalleryImages)
         {
@@ -91,7 +91,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(x => x.Gallery).FirstOrDefaultAsync(x => x.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -104,7 +104,9 @@ namespace OnlineShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,FullDesc,Price,Discount,ImageName,Qty,Tags,VideoUrl")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,FullDesc,Price,Discount,ImageName,Qty,Tags,VideoUrl,Gallery")] Product product,
+            IFormFile? MainImage,
+            IFormFile[]? GalleryImages)
         {
             if (id != product.Id)
             {
@@ -115,6 +117,39 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (MainImage != null)
+                    {
+                        string rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "banners");
+                        string path = string.Empty;
+
+                        if (!string.IsNullOrEmpty(product.ImageName))
+                        {
+                            path = Path.Combine(rootPath, product.ImageName);
+                            if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
+                        }
+                        else
+                        {
+                            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(MainImage.FileName);
+                            path = Path.Combine(rootPath, fileName);
+                            product.ImageName = fileName;
+                        }
+
+                        using var stream = new FileStream(path, FileMode.Create);
+                        MainImage.CopyTo(stream);
+                    }
+
+                    if (GalleryImages != null)
+                    {
+                        foreach (var galleryImage in GalleryImages)
+                        {
+                            var imageName = Guid.NewGuid() + Path.GetExtension(galleryImage.FileName);
+                            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "banners", imageName);
+                            using var stream = new FileStream(path, FileMode.Create);
+                            galleryImage.CopyTo(stream);
+
+                            product.Gallery.Add(new ProductGallery { ImageName = imageName });
+                        }
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
@@ -165,6 +200,23 @@ namespace OnlineShop.Areas.Admin.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteGallery(int id)
+        {
+            var gallery = await _context.ProductGallery.FindAsync(id);
+            if (gallery == null) return NotFound();
+
+            if (!string.IsNullOrEmpty(gallery.ImageName))
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "banners", gallery.ImageName);
+                if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
+            }
+
+            _context.Remove(gallery);
+            await _context.SaveChangesAsync();
+
+            return Redirect("edit/" + gallery.ProductId);
         }
 
         private bool ProductExists(int id)
